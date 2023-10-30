@@ -1,4 +1,3 @@
-from binance.client import Client
 import yfinance as yf
 import matplotlib.pyplot as plt
 import plotly.express as px
@@ -11,10 +10,18 @@ import ta
 import warnings
 warnings.filterwarnings('ignore')
 
-# Initialisez le client Binance
-api_key = 'KvhMwP9f280FU5otVKPLSLkCg5r5Z3xBiS3FG97394WA1Uw7K6jrYpkwRloAbwFt'
-secret_key = 'Uc3oGUMNtWobyGQ3qWcH8QIwDi3u4t73y4W8vu7CK1fvmY5o6tzqr51bSDhKKmSk'
-client = Client(api_key, secret_key)
+from binance import Client
+from dotenv import load_dotenv
+import os 
+
+# Chargez les variables d'environnement à partir du fichier .env
+load_dotenv()
+
+# Accédez à vos clés d'API à l'aide de variables d'environnement
+API_KEY = os.getenv("BINANCE_API_KEY")
+SECRET_KEY = os.getenv("BINANCE_API_SECRET")
+
+client = Client(API_KEY, SECRET_KEY) 
 
 
 def BackTest(serie, annualized_scalar=252):
