@@ -23,7 +23,6 @@ SECRET_KEY = os.getenv("BINANCE_API_SECRET")
 
 client = Client(API_KEY, SECRET_KEY) 
 
-
 def BackTest(serie, annualized_scalar=252):
     global serie_print
     
@@ -34,7 +33,6 @@ def BackTest(serie, annualized_scalar=252):
         df['date_time'] = pd.to_datetime(df['date_time'])
         df['date_time'] = df['date_time'].dt.date
         df = df.set_index('date_time')
-
         return df
     
     def drawdown_function(serie):
@@ -122,7 +120,6 @@ def BackTest(serie, annualized_scalar=252):
 
 
 def XGBoost(name, lag=10):
-
     def feature_engineering(df, lag=10):
         """ Create new variables"""
 
@@ -148,7 +145,6 @@ def XGBoost(name, lag=10):
 
         return df_copy.dropna()
 
-
     def import_historical_data(name, interval, start_date, end_date):
         klines = client.get_historical_klines(name, interval, start_date, end_date)
         klines = [[x[0], float(x[1]), float(x[2]), float(x[3]),
@@ -158,7 +154,6 @@ def XGBoost(name, lag=10):
                                                'close', 'volume'])
         klines['date'] = pd.to_datetime(klines['date'], unit='ms')
         klines = klines.set_index('date')
-
         return klines
 
     # Import historical data
@@ -210,7 +205,6 @@ def XGBoost(name, lag=10):
     dfc['strategy'] = np.array([dfc['returns'].shift(i) for i in range(lag)]).sum(axis=0) * (dfc['position'].shift(lag))
     dfc['return'] = dfc['strategy'].dropna()
     dfc = dfc['return'].iloc[split:] / lag
-
     return dfc
 
 
